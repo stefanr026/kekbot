@@ -50,7 +50,8 @@ def add_user(username):
             "total_claimed": 0,
             "steal_timer": 0,
             "portfolio": [],
-            "xp": 0
+            "xp": 0,
+            "level_reached_at": int(time())
         })
 
         save_users(users)

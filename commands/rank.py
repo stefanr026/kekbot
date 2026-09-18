@@ -7,11 +7,14 @@ async def cmd_rank(username, reply, args=None):
 
     users = load_users()
 
-    # Sorting by xp also breaks level ties by whoever has more xp within that level
+    # Higher levels rank first; earlier arrival at a level wins ties.
     sorted_users = sorted(
         users,
-        key=lambda user: user.get("xp", 0),
-        reverse=True
+        key=lambda user: (
+            -get_level(user.get("xp", 0)),
+            user.get("level_reached_at", float("inf")),
+            -user.get("xp", 0),
+        ),
     )
 
     leaderboard_message = "Top 10: "

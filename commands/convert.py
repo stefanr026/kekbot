@@ -1,7 +1,7 @@
 from config import COMMAND_PREFIX
 from utils.users import find_user, load_users, reply_if_not_registered, set_user
 from utils.amounts import parse_positive_amount
-from utils.xp import XP_PER_KEK
+from utils.xp import XP_PER_KEK, record_level_change
 
 async def cmd_convert(username, reply, args=None):
     print(f"@{username} requested convert command with args: {args}")
@@ -46,6 +46,7 @@ async def cmd_convert(username, reply, args=None):
     spent_xp = reward * XP_PER_KEK
 
     user["xp"] = xp - spent_xp
+    record_level_change(user, xp)
     user["balance"] += reward
 
     set_user(user["username"], user)

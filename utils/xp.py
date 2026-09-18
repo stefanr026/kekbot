@@ -1,3 +1,6 @@
+from time import time
+
+
 XP_PER_LEVEL = 1000
 MAX_LEVEL = 30
 XP_PER_KEK = 1  # $convert rate: 10 xp -> 1 kek, one-way only
@@ -11,9 +14,18 @@ def get_kek_bonus(level):
     return level
 
 
+def record_level_change(user, previous_xp, timestamp=None):
+    previous_level = get_level(previous_xp)
+    current_level = get_level(user.get("xp", 0))
+
+    if current_level != previous_level:
+        user["level_reached_at"] = int(time() if timestamp is None else timestamp)
+
+
 def add_xp(user, amount):
     before = user.get("xp", 0)
     user["xp"] = min(before + amount, XP_PER_LEVEL * MAX_LEVEL)
+    record_level_change(user, before)
     return user["xp"] - before
 
 
