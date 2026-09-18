@@ -66,7 +66,7 @@ async def cmd_stats(username, reply, args=None):
     bonus = get_kek_bonus(level)
     xp_progress, xp_needed = get_xp_progress(user.get("xp", 0))
     xp_bar_display = hp_bar(xp_progress, max_hp=xp_needed, width=10) if xp_needed else "█" * 10
-    xp_text = f"{xp_progress}/{xp_needed} XP" if xp_needed else f"{user.get('xp', 0)} XP (MAX)"
+    xp_text = f"{xp_progress}/{xp_needed} XP" if xp_needed else f"{user.get('xp', 0)} XP"
     
     stocks = load_stocks()
     stats_message = (

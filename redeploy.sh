@@ -14,6 +14,4 @@ cleanup() {
 }
 trap cleanup EXIT
 
-bash "$SCRIPT_DIR/quit.sh"
 bash "$SCRIPT_DIR/deploy.sh"
-bash "$SCRIPT_DIR/run.sh"
