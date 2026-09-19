@@ -13,12 +13,22 @@ USERS_FILE = "data/users.json"
 # (or the respawn runner) can't clobber each other's changes with stale data.
 users_lock = asyncio.Lock()
 
+
+def _ensure_users_file():
+    os.makedirs(os.path.dirname(USERS_FILE), exist_ok=True)
+    if not os.path.exists(USERS_FILE):
+        with open(USERS_FILE, "w") as f:
+            json.dump([], f)
+
+
 def load_users():
+    _ensure_users_file()
     with open(USERS_FILE, "r") as f:
         return json.load(f)
 
 
 def save_users(users):
+    _ensure_users_file()
     # Write to a temp file then atomically replace, so a concurrent load_users()
     # can never observe a half-written/truncated file.
     tmp_path = f"{USERS_FILE}.tmp"
